@@ -5,6 +5,8 @@ Running: /cad/xilinx/Vivado/2023.2/bin/unwrapped/lnx64.o/xelab --incr --debug ty
 Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3705] select index 3 into 'FI_out' is out of bounds [/home/azafeer/Desktop/test/fault_injector/tb_fault_injector.sv:32]
+WARNING: [VRFC 10-9466] unpacked array widths (4 versus 3) do not match [/home/azafeer/Desktop/test/fault_injector/tb_fault_injector.sv:32]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis

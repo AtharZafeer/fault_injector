@@ -35,13 +35,13 @@ module fault_injector_counter #(counter_width = 32)
 endmodule
 */  
 
-module fault_injector #(N = 1, 
+module fault_injector #(N = 4, 
     DELAY_CYCLES = 100, 
     PULSE_LENGTH = 2, 
     counter_width = 32
     )(
     input clk, input rstn,
-    output logic [N -1: 0] FI_out);
+    output logic FI_out [N-1]);
    //reg rstn_counter;
    reg [counter_width-1:0] FI_counter_output;
    //fault_injector_counter fault_injector_counter (.clk(clk), .rstn(rstn), .FI_counter_output(FI_counter_output));
@@ -51,20 +51,20 @@ module fault_injector #(N = 1,
    } FI_STATE;
    
    FI_STATE current_state, next_state;
-   
+  
    always_ff @(posedge clk or negedge rstn) begin 
     if(~rstn) begin
         current_state <= IDLE;
          FI_counter_output = 0;
-         FI_out = 0;
+         for(int i =0; i < N; i++) FI_out[i] = 0;
         //rstn_counter = 0;
         end
     else begin
         current_state <= next_state;
-        if(FI_counter_output <= (DELAY_CYCLES + PULSE_LENGTH))FI_counter_output+=1;
+        if(FI_counter_output <= (DELAY_CYCLES + PULSE_LENGTH)) FI_counter_output+=1;
         else FI_counter_output = 0;
-        if(current_state == PULSE || current_state == DELAY) FI_out = 1;
-        else if(current_state == IDLE) FI_out = 0;
+        if(current_state == PULSE || current_state == DELAY) for(int i =0; i < N; i++) FI_out[i] = 1;
+        else if(current_state == IDLE) for(int i =0; i < N; i++) FI_out[i] = 0;
         end
     end
   

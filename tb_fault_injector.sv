@@ -22,14 +22,14 @@
 
 module tb_fault_injector();
 
-parameter N = 1;
+parameter N = 4;
 
 logic clk_i;
 logic rstn;
-logic [N - 1:0] FI_out;
+logic FI_out[N-1];
 
 
-fault_injector DUT(clk_i, rstn, FI_out);
+fault_injector DUT(clk_i, rstn, FI_out[0:N-1]);
 
 initial clk_i = 1'b0;  
 always  begin
