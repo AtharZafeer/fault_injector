@@ -1,0 +1,5 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/azafeer/Desktop/test/fault_injector/fault_injector.sim/sim_1/synth/func/xsim/tb_fault_injector_func_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fault_injector
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/azafeer/Desktop/test/fault_injector/tb_fault_injector.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_fault_injector

@@ -1,0 +1,6 @@
+0.7
+2020.2
+Oct 13 2023
+20:21:30
+/home/azafeer/Desktop/test/fault_injector/fault_injector.sim/sim_1/synth/func/xsim/tb_fault_injector_func_synth.v,1708202032,verilog,,,,fault_injector;glbl,,uvm,,,,,,
+/home/azafeer/Desktop/test/fault_injector/tb_fault_injector.sv,1708202023,systemVerilog,,,,tb_fault_injector,,uvm,,,,,,

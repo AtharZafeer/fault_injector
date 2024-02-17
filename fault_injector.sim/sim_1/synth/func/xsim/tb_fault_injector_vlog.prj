@@ -1,0 +1,9 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"tb_fault_injector_func_synth.v" \
+
+sv xil_defaultlib  \
+"../../../../../tb_fault_injector.sv" \
+
+# Do not sort compile order
+nosort
