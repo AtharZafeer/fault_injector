@@ -2,7 +2,7 @@
 // Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2023.2 (lin64) Build 4029153 Fri Oct 13 20:13:54 MDT 2023
-// Date        : Sat Feb 17 20:33:51 2024
+// Date        : Sat Feb 17 21:49:10 2024
 // Host        : compute running 64-bit Ubuntu 22.04.1 LTS
 // Command     : write_verilog -mode funcsim -nolib -force -file
 //               /home/azafeer/Desktop/test/fault_injector/fault_injector.sim/sim_1/synth/func/xsim/tb_fault_injector_func_synth.v
@@ -13,16 +13,20 @@
 // --------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-(* DELAY_CYCLES = "100" *) (* N = "1" *) (* PULSE_LENGTH = "2" *) 
+(* DELAY_CYCLES = "100" *) (* N = "4" *) (* PULSE_LENGTH = "2" *) 
 (* counter_width = "32" *) 
 (* NotValidForBitStream *)
 module fault_injector
    (clk,
     rstn,
-    FI_out);
+    \FI_out[0] ,
+    \FI_out[1] ,
+    \FI_out[2] );
   input clk;
   input rstn;
-  output [0:0]FI_out;
+  output \FI_out[0] ;
+  output \FI_out[1] ;
+  output \FI_out[2] ;
 
   wire [6:0]FI_counter_output;
   wire \FI_counter_output[0]_i_1_n_0 ;
@@ -33,10 +37,13 @@ module fault_injector
   wire \FI_counter_output[5]_i_1_n_0 ;
   wire \FI_counter_output[6]_i_1_n_0 ;
   wire \FI_counter_output[6]_i_2_n_0 ;
-  wire [0:0]FI_out;
+  wire FI_out;
+  wire \FI_out[0] ;
   wire \FI_out[0]_i_1_n_0 ;
   wire \FI_out[0]_i_2_n_0 ;
-  wire [0:0]FI_out_OBUF;
+  wire \FI_out[1] ;
+  wire \FI_out[2] ;
+  wire \FI_out_reg_n_0_[0] ;
   wire \FSM_onehot_current_state[0]_i_1_n_0 ;
   wire \FSM_onehot_current_state[0]_i_2_n_0 ;
   wire \FSM_onehot_current_state[1]_i_1_n_0 ;
@@ -45,7 +52,6 @@ module fault_injector
   wire \FSM_onehot_current_state[2]_i_2_n_0 ;
   wire \FSM_onehot_current_state[2]_i_3_n_0 ;
   wire \FSM_onehot_current_state[2]_i_4_n_0 ;
-  wire \FSM_onehot_current_state_reg_n_0_[0] ;
   wire \FSM_onehot_current_state_reg_n_0_[1] ;
   wire \FSM_onehot_current_state_reg_n_0_[2] ;
   wire clk;
@@ -188,12 +194,15 @@ module fault_injector
         .CLR(\FSM_onehot_current_state[2]_i_2_n_0 ),
         .D(\FI_counter_output[6]_i_1_n_0 ),
         .Q(FI_counter_output[6]));
+  OBUF \FI_out[0]_INST_0 
+       (.I(\FI_out_reg_n_0_[0] ),
+        .O(\FI_out[0] ));
   LUT3 #(
     .INIT(8'hFE)) 
     \FI_out[0]_i_1 
        (.I0(\FSM_onehot_current_state_reg_n_0_[2] ),
         .I1(\FSM_onehot_current_state_reg_n_0_[1] ),
-        .I2(\FSM_onehot_current_state_reg_n_0_[0] ),
+        .I2(FI_out),
         .O(\FI_out[0]_i_1_n_0 ));
   LUT2 #(
     .INIT(4'hE)) 
@@ -201,9 +210,12 @@ module fault_injector
        (.I0(\FSM_onehot_current_state_reg_n_0_[1] ),
         .I1(\FSM_onehot_current_state_reg_n_0_[2] ),
         .O(\FI_out[0]_i_2_n_0 ));
-  OBUF \FI_out_OBUF[0]_inst 
-       (.I(FI_out_OBUF),
-        .O(FI_out));
+  OBUF \FI_out[1]_INST_0 
+       (.I(\FI_out_reg_n_0_[0] ),
+        .O(\FI_out[1] ));
+  OBUF \FI_out[2]_INST_0 
+       (.I(\FI_out_reg_n_0_[0] ),
+        .O(\FI_out[2] ));
   FDCE #(
     .INIT(1'b0)) 
     \FI_out_reg[0] 
@@ -211,11 +223,11 @@ module fault_injector
         .CE(\FI_out[0]_i_1_n_0 ),
         .CLR(\FSM_onehot_current_state[2]_i_2_n_0 ),
         .D(\FI_out[0]_i_2_n_0 ),
-        .Q(FI_out_OBUF));
+        .Q(\FI_out_reg_n_0_[0] ));
   LUT6 #(
     .INIT(64'hAAA8FFFFAAA8AAA8)) 
     \FSM_onehot_current_state[0]_i_1 
-       (.I0(\FSM_onehot_current_state_reg_n_0_[0] ),
+       (.I0(FI_out),
         .I1(\FSM_onehot_current_state[1]_i_2_n_0 ),
         .I2(FI_counter_output[0]),
         .I3(\FSM_onehot_current_state[2]_i_4_n_0 ),
@@ -238,7 +250,7 @@ module fault_injector
        (.I0(\FSM_onehot_current_state[1]_i_2_n_0 ),
         .I1(FI_counter_output[0]),
         .I2(\FSM_onehot_current_state[2]_i_4_n_0 ),
-        .I3(\FSM_onehot_current_state_reg_n_0_[0] ),
+        .I3(FI_out),
         .I4(\FSM_onehot_current_state_reg_n_0_[2] ),
         .I5(\FSM_onehot_current_state_reg_n_0_[1] ),
         .O(\FSM_onehot_current_state[1]_i_1_n_0 ));
@@ -254,7 +266,7 @@ module fault_injector
   LUT6 #(
     .INIT(64'h4444444400040404)) 
     \FSM_onehot_current_state[2]_i_1 
-       (.I0(\FSM_onehot_current_state_reg_n_0_[0] ),
+       (.I0(FI_out),
         .I1(\FSM_onehot_current_state_reg_n_0_[1] ),
         .I2(\FSM_onehot_current_state[2]_i_3_n_0 ),
         .I3(FI_counter_output[2]),
@@ -287,7 +299,7 @@ module fault_injector
         .CE(1'b1),
         .D(\FSM_onehot_current_state[0]_i_1_n_0 ),
         .PRE(\FSM_onehot_current_state[2]_i_2_n_0 ),
-        .Q(\FSM_onehot_current_state_reg_n_0_[0] ));
+        .Q(FI_out));
   (* FSM_ENCODED_STATES = "DELAY:010,IDLE:001,PULSE:100" *) 
   FDCE #(
     .INIT(1'b0)) 

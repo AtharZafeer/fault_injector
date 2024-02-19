@@ -2,3 +2,6 @@ Running: xsim.dir/tb_fault_injector_func_synth/xsimk -simmode gui -wdb tb_fault_
 Design successfully loaded
 Design Loading Memory Usage: 23720 KB (Peak: 24228 KB)
 Design Loading CPU Usage: 140 ms
+Simulation completed
+Simulation Memory Usage: 105976 KB (Peak: 162988 KB)
+Simulation CPU Usage: 180 ms
