@@ -18,24 +18,30 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "fault_injector.srcs/sources_1/imports/new/fault_injector.sv"
 
 module tb_fault_injector();
 
-parameter N = 4;
+parameter N = 256;
+parameter DELAY_CYCLES = 100;
+parameter PULSE_LENGTH = 2;
+parameter counter_width = 32;
+parameter address_width = 8;
 
 logic clk_i;
 logic rstn;
-logic FI_out[N-1];
+logic [N-1:0] FI_out;
 
 
-fault_injector DUT(clk_i, rstn, FI_out[0:N-1]);
+fault_injector #(.N(N), .DELAY_CYCLES(DELAY_CYCLES),.PULSE_LENGTH(PULSE_LENGTH),.counter_width(counter_width),.address_width(address_width))
+ DUT(.clk(clk_i), .rstn(rstn), .FI_out( FI_out));
 
 initial clk_i = 1'b0;  
 always  begin
     #1 clk_i = !clk_i;
 end
 initial begin 
+
     #0
     rstn = 0;
     #100

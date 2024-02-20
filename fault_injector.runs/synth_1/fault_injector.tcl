@@ -85,7 +85,10 @@ set_property ip_output_repo /home/azafeer/Desktop/test/fault_injector/fault_inje
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_verilog -library xil_defaultlib -sv /home/azafeer/Desktop/test/fault_injector/fault_injector.srcs/sources_1/imports/new/fault_injector.sv
+read_verilog -library xil_defaultlib -sv {
+  /home/azafeer/Desktop/test/fault_injector/fault_injector.srcs/sources_1/new/pseudo_random_gen.sv
+  /home/azafeer/Desktop/test/fault_injector/fault_injector.srcs/sources_1/imports/new/fault_injector.sv
+}
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
@@ -95,6 +98,9 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc /home/azafeer/Desktop/test/fault_injector/fault_injector.srcs/constrs_1/imports/fault_injector/constraints_FI.xdc
+set_property used_in_implementation false [get_files /home/azafeer/Desktop/test/fault_injector/fault_injector.srcs/constrs_1/imports/fault_injector/constraints_FI.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
 
 read_checkpoint -auto_incremental -incremental /home/azafeer/Desktop/test/fault_injector/fault_injector.srcs/utils_1/imports/synth_1/fault_injector.dcp

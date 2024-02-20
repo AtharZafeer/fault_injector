@@ -23,21 +23,21 @@
 //change based on the address byte width requirement you have when you know the value of number of registers in the design you are trying to integrate this
 //Generate a new address every clock cycle
 
-module lfsr_address_gen #(N = 16  // N-> number of registers that makes up the shift regiter
+module lfsr_address_gen #(address_width = 8)  // N-> number of registers that makes up the shift regiter
 
 (
     input logic clk,   
-    input logic rst_n, 
-    input logic [N-1:0] seed, 
-    output logic [N-1:0] lfsr_output
+    input logic rstn, 
+    input logic [address_width-1:0] seed,input logic start_bit, 
+    output logic [address_width-1:0] lfsr_output
 );
-    reg [N-1:0] lfsr_reg;
+    reg [address_width-1:0] lfsr_reg;
     
-    always_ff@(posedge clk or negedge rst_n) begin 
-        if(~rst_n) lfsr_reg = seed; //soft reset to seed value (which can be anything other than Zero
-        else begin 
-        lfsr_reg = lfsr_reg >> 1; //shift by 1
-        lfsr_reg[N-1] = (lfsr_reg[N-1] ^ lfsr_reg[N-2]^lfsr_reg[N-3]^lfsr_reg[1]) ; // XOR logic
+    always_ff@(posedge clk or negedge rstn) begin 
+        if(~rstn) lfsr_reg = seed; //soft reset to seed value (which can be anything other than Zero
+        else if(start_bit) begin 
+                lfsr_reg = lfsr_reg >> 1; //shift by 1
+                lfsr_reg[address_width-1] = (lfsr_reg[address_width-1] ^ lfsr_reg[address_width-2]^lfsr_reg[address_width-3]^lfsr_reg[1]) ; // XOR logic
         end
     end  
     
